@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+require 'nokogiri'
+
+command = ARGV.first
+args = ARGV.drop(1).join(' ')
+url = URI.parse("http://explainshell.com/explain/#{command}?args=#{args}") 
+result = Nokogiri::HTML(open(url))
+
+puts result.xpath('//title').first.content
+puts
+result.xpath('//pre').each do |node|
+  puts node.content
+end
