@@ -3,9 +3,16 @@
 require 'open-uri'
 require 'nokogiri'
 
+
+if ARGV.size < 1
+  puts "Usage: explain <COMMAND> [OPTIONS]"
+  exit 1
+end
+
 command = ARGV.first
 args = ARGV.drop(1).join(' ')
-url = URI.parse("http://explainshell.com/explain/#{command}?args=#{args}") 
+url = URI.parse("http://explainshell.com/explain/#{command}")
+url = URI.parse("http://explainshell.com/explain/#{command}?args=#{args}") if ARGV.size > 1
 result = Nokogiri::HTML(open(url))
 
 puts result.xpath('//title').first.content
